@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Built-By: pedrojunior
+Build-Jdk: 11.0.3
+Implementation-Title: crud-springboot
+Implementation-Version: 0.0.1-SNAPSHOT
+Implementation-Vendor-Id: com.ufc.br
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-boot
+ -starter-parent/crud-springboot
+Created-By: Maven Integration for Eclipse
+

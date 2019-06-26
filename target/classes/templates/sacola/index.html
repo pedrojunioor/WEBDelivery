@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+
+<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+
+<link th:href="@{/css/style.css}" rel="stylesheet" />
+
+<!--Let browser know website is optimized for mobile-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<header>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<a class="navbar-brand" href="/index"><img src="/img/logo.png"
+			width="30" height="30" alt="Logo"></a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarSupportedContent"
+			aria-controls="navbarSupportedContent" aria-expanded="false"
+			aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item active"><a class="nav-link" href="/index">Home<span class="sr-only">(current)</span></a></li>
+				<li class="nav-item active"><a class="nav-link" href="/prato/listar"> Cardapio </a></li>
+				<li class="nav-item active"><a class="nav-link" href="/sobre">Sobre</a> </li>
+				<li class="nav-item active"><a class="nav-link" href="/contato">Contato</a></li>
+			</ul>
+			<ul sec:authorize="hasRole('ROLE_USER')" class="navbar-nav mr-auto">
+				<li class="nav-item active"><a class="navbar-brand" href="/pessoa/pedidosPessoa"><button type="button" class="btn btn-warning">MeusPedidos</button></a></li>
+			</ul>
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item active"><a class="navbar-brand" href="/sacola/index"><img src="/img/sacola.png" width="30" height="30" alt="Logo">Sacola</a></li>
+			</ul>
+			<ul sec:authorize="!hasAnyRole('ROLE_ADMIN','ROLE_USER')" class="navbar-nav mr-auto">
+				<li class="nav-item active"><a class="navbar-brand" href="/pessoa/logar"><button type="button" class="btn btn-warning">Login</button></a></li>
+			</ul>
+			<ul sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_USER')" class="navbar-nav mr-auto">
+				<li class="nav-item active"><a class="navbar-brand" href="/logout"><button type="button" class="btn btn-warning">Logout</button></a></li>
+			</ul>
+			<ul sec:authorize="!hasAnyRole('ROLE_ADMIN','ROLE_USER')" class="navbar-nav mr-auto">
+				<li class="nav-item active"><a class="navbar-brand" href="/pessoa/formulario"><button type="button" class="btn btn-warning">Cadastre-se</button></a></li>
+			</ul>
+			<ul sec:authorize="hasRole('ROLE_ADMIN')" class="navbar-nav mr-auto">
+				<li class="nav-item active"><a class="navbar-brand" href="/pessoa/listar"><button type="button" class="btn btn-warning">Usuarios Cadastrados</button></a></li>
+			</ul>
+		</div>
+	</nav>
+</header>
+</head>
+
+<body>
+
+	<div th:fragment="sacola">
+	<table class="table table-dark">
+		<thead>
+			<tr>
+				<th scope="col">Nome</th>
+				<th scope="col">Quantidade</th>
+				<th scope="col">Preço</th>
+			</tr>
+		</thead>
+		<tbody th:each="item : ${session.sacola}">
+
+			<tr>
+				<td><span th:text="${item.prato.nome}"></span></td>
+				<td><span th:text="${item.quantidade}"></span></td>
+				<td><span th:text="${item.prato.preco * item.quantidade}"></span>
+				<td><img style="width: 200px" th:src="@{'/images/' + ${item.prato.nome}+.png}" alt="Card image cap"></td>
+				<td><a th:href="@{/sacola/remove/{codigo}(codigo=${item.prato.codigo})}"> <button type="button" class="btn btn-danger">Excluir</button></a></a></td>
+			</tr>
+		</tbody>
+	</table>
+
+	<p>
+		<b><span th:text="${session.total == null ? 'Nenhum item adicionado' : 'Total: R$ ' + session.total}"></span></b>
+	</p>
+
+		<div class="card-action">
+			<a th:unless="${session.sacola == null}" th:href="@{/pedido/finalizar}"
+				class="btn btn-success"> Fazer pedido
+			</a>
+		</div>
+	</div>
+	<br>
+	<a class="btn btn-primary" href="/prato/listar"> Ver Pratos </a>
+
+</body>
+</html>

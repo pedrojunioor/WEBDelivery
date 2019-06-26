@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<meta charset="UTF-8">
+<title>Pagina Listagem Pedidos</title>
+<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+<header>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<a class="navbar-brand" href="/index"><img src="/img/logo.png"
+			width="30" height="30" alt="Logo"></a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarSupportedContent"
+			aria-controls="navbarSupportedContent" aria-expanded="false"
+			aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item active"><a class="nav-link" href="/index">Home<span
+						class="sr-only">(current)</span></a></li>
+				<li class="nav-item active"><a class="nav-link"
+					href="/prato/listar"> Cardapio </a></li>
+				<li class="nav-item active"><a class="nav-link" href="/sobre">Sobre</a>
+				</li>
+				<li class="nav-item active"><a class="nav-link" href="/contato">Contato</a></li>
+			</ul>
+
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item active"><a class="navbar-brand"
+					href="/sacola/index"><img src="/img/sacola.png" width="30"
+						height="30" alt="Logo">Sacola</a></li>
+			</ul>
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item active"><a class="navbar-brand"
+					href="/login"><button type="button" class="btn btn-warning">Login</button></a>
+				</li>
+			</ul>
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item active"><a class="navbar-brand"
+					href="/logout"><button type="button" class="btn btn-warning">Logout</button></a>
+				</li>
+			</ul>
+
+		</div>
+	</nav>
+</header>
+</head>
+<body>
+
+	<table class="table table-dark">
+		<thead>
+			<tr>
+				<th scope="col">Cod</th>
+				<th scope="col">Data</th>
+				<th scope="col">Endereço de Entrega</th>
+				<th scope="col">Total</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="pedido : ${pedidosPessoa}" method="post">
+				<td class="card-text" th:text="${pedido.codigo}"></td>
+				<td><span th:text="${pedido.dataPedido}"></span></td>
+				<td><span th:text="${pedido.pessoa.endereco}"></span></td>
+				<td><span th:text="${' R$ '+pedido.total}"></span></td>
+				<td></td>
+			</tr>
+		</tbody>
+	</table>
+
+
+
+	<script src="/js/bootstrap.min.js"></script>
+</body>
+</html>

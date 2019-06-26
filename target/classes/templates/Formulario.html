@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="UTF-8">
+<title>Meu Formulario</title>
+<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+<header>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<a class="navbar-brand" href="/index"><img src="/img/logo.png"
+			width="30" height="30" alt="Logo"></a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarSupportedContent"
+			aria-controls="navbarSupportedContent" aria-expanded="false"
+			aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item active"><a class="nav-link" href="/index">Home<span class="sr-only">(current)</span></a></li>
+				<li class="nav-item active"><a class="nav-link" href="/prato/listar"> Cardapio </a></li>
+				<li class="nav-item active"><a class="nav-link" href="/sobre">Sobre</a> </li>
+				<li class="nav-item active"><a class="nav-link" href="/contato">Contato</a></li>
+			</ul>
+			<ul sec:authorize="hasRole('ROLE_USER')" class="navbar-nav mr-auto">
+				<li class="nav-item active"><a class="navbar-brand" href="/pessoa/pedidosPessoa"><button type="button" class="btn btn-warning">MeusPedidos</button></a></li>
+			</ul>
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item active"><a class="navbar-brand" href="/sacola/index"><img src="/img/sacola.png" width="30" height="30" alt="Logo">Sacola</a></li>
+			</ul>
+			<ul sec:authorize="!hasAnyRole('ROLE_ADMIN','ROLE_USER')" class="navbar-nav mr-auto">
+				<li class="nav-item active"><a class="navbar-brand" href="/pessoa/logar"><button type="button" class="btn btn-warning">Login</button></a></li>
+			</ul>
+			<ul sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_USER')" class="navbar-nav mr-auto">
+				<li class="nav-item active"><a class="navbar-brand" href="/logout"><button type="button" class="btn btn-warning">Logout</button></a></li>
+			</ul>
+			<ul sec:authorize="!hasAnyRole('ROLE_ADMIN','ROLE_USER')" class="navbar-nav mr-auto">
+				<li class="nav-item active"><a class="navbar-brand" href="/pessoa/formulario"><button type="button" class="btn btn-warning">Cadastre-se</button></a></li>
+			</ul>
+			<ul sec:authorize="hasRole('ROLE_ADMIN')" class="navbar-nav mr-auto">
+				<li class="nav-item active"><a class="navbar-brand" href="/pessoa/listar"><button type="button" class="btn btn-warning">Usuarios Cadastrados</button></a></li>
+			</ul>
+		</div>
+	</nav>
+</header>
+</head>
+<body>
+
+
+	<form action="/pessoa/salvar" method="post" th:object="${pessoa}"
+		enctype="multipart/form-data">
+
+		<div class="alert alert-success" role="alert"
+			th:if=${!#strings.isEmpty(mensagem)}>
+			<span th:text=${mensagem}> </span>
+		</div>
+
+		<div class="alert alert-danger" role="alert"
+			th:if=${#fields.hasAnyErrors()}>
+			<div th:each="detailedError : ${#fields.detailedErrors()}">
+				<span th:text="${detailedError.message}"> </span>
+			</div>
+		</div>
+
+		<input type="hidden" th:field="*{codigo}">
+		<div class="form-group">
+			Nome:<input class="form-control" type="text" th:field="*{nome}">
+		</div>
+	
+		<div class="form-group">
+			Data de Nascimento:<input class="form-control" type="text" th:field="*{dataNascimento}">
+		</div>
+		
+		<div class="form-group">
+			Endereço:<input class="form-control" type="text" th:field="*{endereco}">
+		</div>
+		
+		<div class="form-group">
+			<label for="exampleFormControlSelect1">Sexo</label> 
+			<select class="form-control" id="exampleFormControlSelect1" th:field="*{sexo}">
+				<option value="NaoDeclarado" selected >Nao Declarado</option>
+				<option value="Masculino "th:field="*{sexo}">Masculino</option>
+				<option value="Feminino"th:field="*{sexo}">Feminino</option>
+			</select>
+		</div>
+		 
+		<div class="form-group">
+			Login:<input class="form-control" type="text" th:field="*{login}">
+		</div>
+		<div class="form-group">
+			Senha:<input class="form-control" type="password" th:field="*{senha}">
+		</div>
+		<input type="submit" value="Cadastrar">
+
+	</form>
+	<br>
+	<a href="/pessoa/listar"><button>Ver Pessoas Cadastradas</button></a>
+	<a href="/index"><button>Pagina Inicial</button></a>
+
+	<script src="/js/bootstrap.min.js"></script>
+</body>
+</html>

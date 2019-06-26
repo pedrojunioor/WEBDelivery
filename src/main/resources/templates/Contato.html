@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+<meta charset="UTF-8">
+<title>Pagina Inicial</title>
+<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css" />
+<header>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<a class="navbar-brand" href="/index"><img src="/img/logo.png"
+			width="30" height="30" alt="Logo"></a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#navbarSupportedContent"
+			aria-controls="navbarSupportedContent" aria-expanded="false"
+			aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item active"><a class="nav-link" href="/index">Home<span class="sr-only">(current)</span></a></li>
+				<li class="nav-item active"><a class="nav-link" href="/prato/listar"> Cardapio </a></li>
+				<li class="nav-item active"><a class="nav-link" href="/sobre">Sobre</a> </li>
+				<li class="nav-item active"><a class="nav-link" href="/contato">Contato</a></li>
+			</ul>
+			<ul sec:authorize="hasRole('ROLE_USER')" class="navbar-nav mr-auto">
+				<li class="nav-item active"><a class="navbar-brand" href="/pessoa/pedidosPessoa"><button type="button" class="btn btn-warning">MeusPedidos</button></a></li>
+			</ul>
+			<ul class="navbar-nav mr-auto">
+				<li class="nav-item active"><a class="navbar-brand" href="/sacola/index"><img src="/img/sacola.png" width="30" height="30" alt="Logo">Sacola</a></li>
+			</ul>
+			<ul sec:authorize="!hasAnyRole('ROLE_ADMIN','ROLE_USER')" class="navbar-nav mr-auto">
+				<li class="nav-item active"><a class="navbar-brand" href="/pessoa/logar"><button type="button" class="btn btn-warning">Login</button></a></li>
+			</ul>
+			<ul sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_USER')" class="navbar-nav mr-auto">
+				<li class="nav-item active"><a class="navbar-brand" href="/logout"><button type="button" class="btn btn-warning">Logout</button></a></li>
+			</ul>
+			<ul sec:authorize="!hasAnyRole('ROLE_ADMIN','ROLE_USER')" class="navbar-nav mr-auto">
+				<li class="nav-item active"><a class="navbar-brand" href="/pessoa/formulario"><button type="button" class="btn btn-warning">Cadastre-se</button></a></li>
+			</ul>
+			<ul sec:authorize="hasRole('ROLE_ADMIN')" class="navbar-nav mr-auto">
+				<li class="nav-item active"><a class="navbar-brand" href="/pessoa/listar"><button type="button" class="btn btn-warning">Usuarios Cadastrados</button></a></li>
+			</ul>
+		</div>
+	</nav>
+</header>
+</head>
+<body>
+	<h1>CONTATO</h1>
+</body>
+</html>
